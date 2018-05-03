@@ -1,0 +1,11 @@
+<label>
+  <span class="hidden">Filter by City</span>
+  {{input
+    value=value
+    key-up=(action 'handleFilterEntry')
+    class="light"
+    placeholder="Filter by City"
+  }}
+</label>
+
+{{yield results}}
