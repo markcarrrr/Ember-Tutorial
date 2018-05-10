@@ -41,12 +41,16 @@ module('Acceptance | list rentals', function(hooks) {
   });
 
   test('should list available rentals', async function(assert) {
+    server.createList('rentals', 3);
+
     await visit('/');
 
     assert.equal(this.element.querySelectorAll('.listing').length, 3, 'should show 3 listings');
   });
 
   test('should filter the list of rentals by city', async function(assert) {
+    server.createList('rentals', 3);
+
     await visit('/');
 
     await fillIn('.list-filter input', 'seattle');
@@ -59,13 +63,15 @@ module('Acceptance | list rentals', function(hooks) {
   });
 
   test('should show details for a selected rental', async function(assert) {
+    server.createList('rentals', 3);
+
     await visit('/');
 
-    await click('.grand-old-mansion');
+    await click(this.element.querySelector('.rental-link'));
 
-    assert.equal(currentURL(), '/rentals/grand-old-mansion', 'should navigate to show route');
+    assert.equal(currentURL(), '/rentals/1', 'should navigate to show route');
 
-    assert.ok(this.element.querySelector('.show-listing h2').textContent.includes("Grand Old Mansion"), 'should list rental title');
+    assert.ok(this.element.querySelector('.show-listing h2').textContent.includes('Grand Old Mansion'), 'should list rental title');
 
     assert.ok(this.element.querySelector('.show-listing .description'), 'should list a description of the property');
   });
